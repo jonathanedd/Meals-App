@@ -2,8 +2,9 @@ const express = require('express');
 
 // middlewares
 const { restaurantExist } = require('../middlewares/restaurant.middlewares');
+const { reviewExist } = require('../middlewares/review.middleware');
 
-// controllers
+// restaurant controller
 const {
   createNewRestaurant,
   getAllRestaurants,
@@ -11,16 +12,34 @@ const {
   updateRestaurant,
 } = require('../controllers/restaurant.controller');
 
+// Review controller
+const {
+  createNewReview,
+  updateReview,
+  deleteReview,
+  // getAllReviews,
+} = require('../controllers/review.controller');
+
 const router = express.Router();
 
-// petitions
+// ENDPOINTS
+// Create new restaurant and get all restaurants
 router.route('/').post(createNewRestaurant).get(getAllRestaurants);
 
+// Get restaurant by id and update restaurant
 router
   .route('/:id')
   .get(restaurantExist, getRestaurantById)
   .patch(restaurantExist, updateRestaurant);
 
-router.post('/reviews/:id');
+// Get all reviews
+// router.get('/reviews', getAllReviews);
+
+// Create new Review
+router
+  .route('/reviews/:id')
+  .post(createNewReview)
+  .patch(reviewExist, updateReview)
+  .delete(reviewExist, deleteReview);
 
 module.exports = { restaurantRouter: router };
