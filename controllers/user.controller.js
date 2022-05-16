@@ -1,11 +1,11 @@
-const { User } = require("../models/user.model");
+const { User } = require('../models/user.model');
 
 // bcrypt
-const bcrypt = require("bcryptjs");
+const bcrypt = require('bcryptjs');
 
 // utils
-const { AppError } = require("../utils/appError");
-const { catchAsync } = require("../utils/catchAsync");
+const { AppError } = require('../utils/appError');
+const { catchAsync } = require('../utils/catchAsync');
 
 // HTTP functions
 const createNewUser = catchAsync(async (req, res, next) => {
@@ -29,7 +29,7 @@ const createNewUser = catchAsync(async (req, res, next) => {
 
 const getAllUsers = catchAsync(async (req, res, next) => {
   const users = await User.findAll({
-    attributes: { exclude: ["password"] },
+    attributes: { exclude: ['password'] },
   });
 
   res.status(201).json({
@@ -40,10 +40,10 @@ const getAllUsers = catchAsync(async (req, res, next) => {
 const login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ where: { email, status: "active" } });
+  const user = await User.findOne({ where: { email, status: 'active' } });
 
   if (!user || !(await bcrypt.compare(password, user.password))) {
-    return next(new AppError("Invalid credentials", 400));
+    return next(new AppError('Invalid credentials', 400));
   }
 
   // JWT
@@ -51,7 +51,7 @@ const login = catchAsync(async (req, res, next) => {
   user.password = undefined;
 
   res.status(201).json({
-    status: "sucess",
+    status: 'success',
   });
 });
 
@@ -65,8 +65,24 @@ const updateUser = catchAsync(async (req, res, next) => {
   });
 
   res.status(201).json({
-    status: "sucess",
+    status: 'success',
   });
+});
+
+const deleteUser = catchAsync(async (req, res, next) => {
+  const { user } = req;
+
+  await user.update({
+    status: 'deleted',
+  });
+
+  res.status(201).json({
+    status: 'success',
+  });
+});
+
+const getUserOrders = catchAsync(async (req, res, next) => {
+  
 });
 
 module.exports = {
@@ -74,4 +90,6 @@ module.exports = {
   getAllUsers,
   login,
   updateUser,
+  deleteUser,
+  getUserOrders,
 };

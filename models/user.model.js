@@ -1,8 +1,8 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes } = require('sequelize');
 
-const { db } = require("../utils/database");
+const { db } = require('../utils/database');
 
-const User = db.define("users", {
+const User = db.define('user', {
   id: {
     primaryKey: true,
     autoIncrement: true,
@@ -25,11 +25,11 @@ const User = db.define("users", {
   status: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: "active",
+    defaultValue: 'active',
   },
   role: {
     type: DataTypes.STRING,
-    defaultValue: "normal",
+    defaultValue: 'normal',
   },
 });
 
