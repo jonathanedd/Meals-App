@@ -19,23 +19,6 @@ const createNewReview = catchAsync(async (req, res, next) => {
   });
 });
 
-// Get all Reviews
-// const getAllReviews = catchAsync(async (req, res, next) => {
-//   const reviews = await Review.findAll({
-//     include: [
-//       {
-//         model: Restaurant,
-//         attributes: { include: ['comment'] },
-//       },
-//     ],
-//   });
-
-//   res.status(201).json({
-//     status: 'success',
-//     reviews,
-//   });
-// });
-
 // Update review
 const updateReview = catchAsync(async (req, res, next) => {
   const { review } = req;
@@ -65,7 +48,6 @@ const deleteReview = catchAsync(async (req, res, next) => {
 
 module.exports = {
   createNewReview,
-  //   getAllReviews,
   updateReview,
   deleteReview,
 };

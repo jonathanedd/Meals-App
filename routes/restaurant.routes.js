@@ -17,7 +17,6 @@ const {
   createNewReview,
   updateReview,
   deleteReview,
-  // getAllReviews,
 } = require('../controllers/review.controller');
 
 const router = express.Router();
@@ -31,9 +30,6 @@ router
   .route('/:id')
   .get(restaurantExist, getRestaurantById)
   .patch(restaurantExist, updateRestaurant);
-
-// Get all reviews
-// router.get('/reviews', getAllReviews);
 
 // Create new Review
 router

@@ -1,5 +1,6 @@
 const { Restaurant } = require('../models/restaurant.model');
 const { Review } = require('../models/review.model');
+const { Meal } = require('../models/meal.model');
 
 // utils
 const { catchAsync } = require('../utils/catchAsync');
@@ -23,6 +24,10 @@ const getAllRestaurants = catchAsync(async (req, res, next) => {
       {
         model: Review,
         attributes: { include: ['comment', 'userId'] },
+      },
+      {
+        model: Meal,
+        attributes: { include: ['name', 'price'] },
       },
     ],
   });

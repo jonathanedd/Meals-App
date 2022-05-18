@@ -10,6 +10,7 @@ const { globalErrorHandler } = require('./controllers/errors.controller');
 const { userRouter } = require('./routes/user.routes');
 const { restaurantRouter } = require('./routes/restaurant.routes');
 const { mealsRouter } = require('./routes/meal.routes');
+const { ordersRouter } = require('./routes/order.routes');
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use(limiter);
 app.use('/api/v4/users', userRouter);
 app.use('/api/v4/restaurants', restaurantRouter);
 app.use('/api/v4/meals', mealsRouter);
+app.use('/api/v4/orders', ordersRouter);
 
 // global error handler
 app.use('*', globalErrorHandler);

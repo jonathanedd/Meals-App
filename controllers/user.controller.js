@@ -1,5 +1,7 @@
 const { User } = require('../models/user.model');
 
+const jwt = require('jsonwebtoken');
+
 // bcrypt
 const bcrypt = require('bcryptjs');
 
@@ -47,11 +49,22 @@ const login = catchAsync(async (req, res, next) => {
   }
 
   // JWT
+  const token = await jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
 
   user.password = undefined;
 
   res.status(201).json({
     status: 'success',
+    token,
+    user,
+  });
+});
+
+const checkToken = catchAsync(async (req, res, next) => {
+  res.status(200).json({
+    user: req.sessionUser,
   });
 });
 
@@ -81,9 +94,7 @@ const deleteUser = catchAsync(async (req, res, next) => {
   });
 });
 
-const getUserOrders = catchAsync(async (req, res, next) => {
-  
-});
+const getUserOrders = catchAsync(async (req, res, next) => {});
 
 module.exports = {
   createNewUser,
@@ -92,4 +103,5 @@ module.exports = {
   updateUser,
   deleteUser,
   getUserOrders,
+  checkToken,
 };
