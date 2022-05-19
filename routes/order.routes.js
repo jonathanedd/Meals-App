@@ -14,6 +14,6 @@ const router = express.Router();
 // ENDPOINTS Petitions
 // create Order
 router.post('/', createNewOrder);
-router.get('/me', getUserOrders);
+router.get('/me');
 
 module.exports = { ordersRouter: router };

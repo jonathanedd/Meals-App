@@ -36,6 +36,14 @@ const protectToken = catchAsync(async (req, res, next) => {
   next();
 });
 
+// protect Admin
+const protectAdmin = catchAsync(async (req, res, next) => {
+  if (req.sessionUser.role !== 'admin') {
+    return next(new AppError('Access not ganted', 407));
+  }
+  next();
+});
+
 // user exist
 const userExist = catchAsync(async (req, res, next) => {
   const { id } = req.params;
@@ -51,17 +59,19 @@ const userExist = catchAsync(async (req, res, next) => {
   next();
 });
 
-// const protrectAccountOwner = catchAsync(async (req, res, next) => {
-//   const { sessionUser, user } = req;
+const protrectAccountOwner = catchAsync(async (req, res, next) => {
+  const { sessionUser, user } = req;
 
-//   if (sessionUser.id !== user.id) {
-//     return next(new AppError('You dont own this account', 403));
-//   }
+  if (sessionUser.id !== user.id) {
+    return next(new AppError('You dont own this account', 403));
+  }
 
-//   next();
-// });
+  next();
+});
 
 module.exports = {
   userExist,
   protectToken,
+  protectAdmin,
+  protrectAccountOwner,
 };

@@ -1,4 +1,5 @@
 const { Review } = require('../models/review.model');
+// const { User } = require('../models/user.model');
 
 // utils
 const { catchAsync } = require('../utils/catchAsync');
@@ -8,7 +9,7 @@ const reviewExist = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
   const review = await Review.findOne({
-    where: { id },
+    where: { id, status: 'available' },
   });
 
   if (!review) {
@@ -16,6 +17,7 @@ const reviewExist = catchAsync(async (req, res, next) => {
   }
 
   req.review = review;
+
   next();
 });
 

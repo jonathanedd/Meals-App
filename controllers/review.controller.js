@@ -1,4 +1,3 @@
-const { Restaurant } = require('../models/restaurant.model');
 const { Review } = require('../models/review.model');
 
 // utils
@@ -6,13 +5,13 @@ const { catchAsync } = require('../utils/catchAsync');
 
 // create new review
 const createNewReview = catchAsync(async (req, res, next) => {
-  const { comment, rating, restaurantId, userId } = req.body;
+  const { comment, rating, userId, restaurantId } = req.body;
 
   const newReview = await Review.create({
     comment,
     rating,
-    restaurantId,
     userId,
+    restaurantId,
   });
   res.status(201).json({
     newReview,

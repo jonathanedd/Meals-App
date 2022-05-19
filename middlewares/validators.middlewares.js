@@ -18,6 +18,18 @@ const createUserValidator = [
     .withMessage('Password must be at least 6 characters'),
 ];
 
+// Restaurant Validator
+const createRestaurantValidator = [
+  body('name').notEmpty().withMessage('Name cannot be empty'),
+  body('address').notEmpty().withMessage('Provide a valid address'),
+];
+
+// Meal validator
+const createMealValidator = [
+  body('name').notEmpty().withMessage('Name cannot me empty'),
+  body('price').notEmpty().withMessage('Please provide a price'),
+];
+
 const checkValidator = (req, res, next) => {
   const errors = validationResult(req);
 
@@ -33,5 +45,7 @@ const checkValidator = (req, res, next) => {
 
 module.exports = {
   createUserValidator,
+  createRestaurantValidator,
+  createMealValidator,
   checkValidator,
 };

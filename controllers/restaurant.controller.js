@@ -53,9 +53,22 @@ const updateRestaurant = catchAsync(async (req, res, next) => {
   res.status(201).json({ status: 'success' });
 });
 
+const deleteRestaurant = catchAsync(async (req, res, next) => {
+  const { restaurant } = req;
+
+  await restaurant.update({
+    status: 'deleted',
+  });
+
+  res.status(201).json({
+    status: 'success',
+  });
+});
+
 module.exports = {
   createNewRestaurant,
   getAllRestaurants,
   getRestaurantById,
   updateRestaurant,
+  deleteRestaurant,
 };

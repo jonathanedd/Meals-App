@@ -1,5 +1,7 @@
 const { Order } = require('../models/order.model');
 const { Meal } = require('../models/meal.model');
+const { Restaurant } = require('../models/restaurant.model');
+const { User } = require('../models/user.model');
 
 // utils
 const { catchAsync } = require('../utils/catchAsync');
@@ -25,12 +27,13 @@ const createNewOrder = catchAsync(async (req, res, next) => {
 });
 
 const getUserOrders = catchAsync(async (req, res, next) => {
+  const { sessionUser } = req;
   const userOrders = Order.findAll({
+    where: { sessionUser, status: 'active' },
     include: [
       {
         model: Meal,
-        where: { status: 'available' },
-        attributes: { include: ['name', 'price'] },
+        attributes: { include: ['name'] },
       },
     ],
   });
@@ -40,7 +43,17 @@ const getUserOrders = catchAsync(async (req, res, next) => {
   });
 });
 
+const getOrderById = catchAsync(async (req, res, next) => {
+  const { order } = req;
+
+  res.status(201).json({
+    status: 'success',
+    order,
+  });
+});
+
 module.exports = {
   createNewOrder,
   getUserOrders,
+  getOrderById,
 };

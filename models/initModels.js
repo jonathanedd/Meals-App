@@ -11,11 +11,11 @@ const initModels = () => {
   Restaurant.hasMany(Meal);
   Meal.belongsTo(Restaurant);
 
-  User.hasMany(Order);
-  Order.belongsTo(User);
-
   User.hasMany(Review);
   Review.belongsTo(User);
+
+  User.hasMany(Order);
+  Order.belongsTo(User);
 
   Meal.hasOne(Order);
   Order.belongsTo(Meal);

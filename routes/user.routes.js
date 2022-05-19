@@ -1,7 +1,11 @@
 const express = require('express');
 
 // middlewares
-const { userExist } = require('../middlewares/user.middlewares');
+const {
+  userExist,
+  protectToken,
+  protrectAccountOwner,
+} = require('../middlewares/user.middlewares');
 
 const {
   createUserValidator,
@@ -17,14 +21,28 @@ const {
   deleteUser,
 } = require('../controllers/user.controller');
 
+const {
+  getUserOrders,
+  getOrderById,
+} = require('../controllers/order.controller');
+const { orderExist } = require('../middlewares/order.middlewares');
+
 const router = express.Router();
 
 // petitions
 router.post('/signup', createUserValidator, checkValidator, createNewUser);
-router.get('/', getAllUsers);
 router.post('/login', login);
-router.get('/orders');
 
-router.route('/:id').patch(userExist, updateUser).delete(userExist, deleteUser);
+router.use(protectToken);
+
+router.get('/', getAllUsers);
+
+router
+  .route('/:id')
+  .patch(userExist, protrectAccountOwner, updateUser)
+  .delete(userExist, protrectAccountOwner, deleteUser);
+
+router.get('/orders', orderExist, getUserOrders);
+router.get('/orders/:id', getOrderById);
 
 module.exports = { userRouter: router };
